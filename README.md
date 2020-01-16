@@ -52,6 +52,31 @@ public class AlphaVantageContext : DbContext
 }
 ```
 
+Here's an example of how I generally use `IDbContextFactoryConfiguration`:
+
+```csharp
+public class AppConfiguration : IDbContextFactoryConfiguration
+{
+    public static string DbName = "AlphaVantage.db";
+
+    private string _dbPath = Path.Combine( Environment.CurrentDirectory, DbName );
+
+    public string ApiKey { get; set; }
+    public string PathToSecuritiesFile { get; set; }
+    public string PathToPriceFile { get; set; }
+    public int ReportingYear { get; set; }
+    public float CallsPerMinute { get; set; }
+
+    public string DatabasePath
+    {
+        get => Path.GetFullPath( _dbPath );
+        set => _dbPath = value;
+    }
+
+    public J4JLoggerConfiguration Logger { get; set; }
+}
+```
+
 ## Configuring Entity Classes
 
 I use the "functional" approach to defining EF entities and contexts rather than the attribute-based style. By default that 
