@@ -6,9 +6,8 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace J4JSoftware.EFCoreUtilities
 {
-    public abstract class DesignTimeFactory<TDbContext, TDbConfig> : IDesignTimeDbContextFactory<TDbContext>
+    public abstract class DesignTimeFactory<TDbContext> : IDesignTimeDbContextFactory<TDbContext>
         where TDbContext : DbContext
-        where TDbConfig : IDbContextFactoryConfiguration, new()
 
     {
         private readonly ConstructorInfo _ctor;
