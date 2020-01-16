@@ -62,7 +62,7 @@ configuration.
 `EntityConfigurationAttribute` and `EntityConfigurator` and the extension method `ConfigureEntities` lets
 you configure entities in an internal class you can embed in the entity's class file and make just one call in `OnModelCreating()`.
 
-You start by decorating an entity class with `EntityConfiguration[<name of configuration class>]`:
+You start by decorating an entity class with `EntityConfiguration[<name of configuration class>]` and defining a configuration class:
 
 ```csharp
 [EntityConfiguration( typeof( HistoricalDataConfigurator ) )]
@@ -78,11 +78,7 @@ public class HistoricalData
 
     public SecurityInfo SecurityInfo { get; set; }
 }
-```
 
-and then define a configuration class:
-
-```csharp
 internal class HistoricalDataConfigurator : EntityConfigurator<HistoricalData>
 {
     protected override void Configure( EntityTypeBuilder<HistoricalData> builder )
