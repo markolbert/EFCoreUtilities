@@ -1,3 +1,5 @@
+[![Nuget](https://img.shields.io/nuget/v/J4JSoftware.EFCore.Utilities?style=flat-square)](https://www.nuget.org/packages/J4JSoftware.Logging/)
+
 # EFCoreUtilities
 
 This library contains classes which can systematize configuring and creating Entity Framework Core databases.
