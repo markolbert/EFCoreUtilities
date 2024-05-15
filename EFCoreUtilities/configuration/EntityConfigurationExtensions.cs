@@ -27,8 +27,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace J4JSoftware.EFCoreUtilities;
 
+[Obsolete($"Use DbContextConfiguration instead")]
 public static class EntityConfigurationExtensions
 {
+    [Obsolete($"Use DbContextConfiguration instead")]
     public static void ConfigureEntities( this ModelBuilder modelBuilder, Type? contextType = null, Assembly? assemblyToScan = null )
     {
         assemblyToScan ??= Assembly.GetCallingAssembly();
@@ -46,6 +48,7 @@ public static class EntityConfigurationExtensions
         }
     }
 
+    [Obsolete($"Use DbContextConfiguration instead")]
     public static void ConfigureEntities(this ModelBuilder modelBuilder, params Type[] entityTypes )
     {
         foreach (var entityType in entityTypes
@@ -57,6 +60,7 @@ public static class EntityConfigurationExtensions
         }
     }
 
+    [Obsolete($"Use DbContextConfiguration instead")]
     public static void ConfigureEntitiesFromAttributes<TContext>(this ModelBuilder modelBuilder)
         where TContext: DbContext
     {
@@ -78,6 +82,7 @@ public static class EntityConfigurationExtensions
         }
     }
 
+    [Obsolete($"Use DbContextConfiguration instead")]
     public static bool ConfigureEntitiesFromDbContext<TContext>(
         this ModelBuilder modelBuilder,
         out List<Type> unconfigured,
@@ -136,6 +141,7 @@ public static class EntityConfigurationExtensions
         return unconfigured.Count == 0;
     }
 
+    [Obsolete($"Use DbContextConfiguration instead")]
     public static void ConfigureEntities<TDbContext>(
         this ModelBuilder modelBuilder,
         Assembly? assemblyToScan = null
