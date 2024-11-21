@@ -98,7 +98,7 @@ public static class EntityConfigurationExtensions
 
         // if no assemblies were specified, assume we should only look in the calling assembly
         if( assemblies.Length == 0 )
-            assemblies = new[] { Assembly.GetCallingAssembly() };
+            assemblies = [Assembly.GetCallingAssembly()];
 
         // find all the IEntityConfigurator types in the assemblies
         foreach( var configType in assemblies.SelectMany( a => a.GetTypes() )
@@ -121,7 +121,7 @@ public static class EntityConfigurationExtensions
             configurator.Configure( modelBuilder );
 
             // get the entity type being configured
-            if( (!configType.BaseType?.IsGenericType ?? true ) || !configType.BaseType.IsGenericType)
+            if( (!configType.BaseType?.IsGenericType ?? true ) || configType.BaseType is not { IsGenericType: true })
                 throw new ArgumentException(
                     $"Type {configType.Name} does not have a generic base type" );
 
