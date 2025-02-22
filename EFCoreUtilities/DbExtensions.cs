@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
@@ -116,6 +117,35 @@ public static class DbExtensions
         return false;
     }
 
+    public static bool TryGetEntitySingleFieldPrimaryKeyInfo(
+        this DbContext dbContext,
+        Type entityType,
+        out PropertyInfo? keyInfo
+    )
+    {
+        keyInfo = null;
+
+        foreach (var curType in dbContext.Model.GetEntityTypes())
+        {
+            if (curType.ClrType != entityType)
+                continue;
+
+            foreach (var key in curType.GetKeys())
+            {
+                if (!key.IsPrimaryKey() || key.Properties.Count != 1)
+                    continue;
+
+                keyInfo = key.Properties[0].PropertyInfo;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
     public static bool TryGetEntitySingleFieldPrimaryKey(this DbContext dbContext, Type entityType, out string? keyField)
     {
         keyField = null;
@@ -131,6 +161,7 @@ public static class DbExtensions
                     continue;
 
                 keyField = key.Properties[0].Name;
+
                 return true;
             }
 
