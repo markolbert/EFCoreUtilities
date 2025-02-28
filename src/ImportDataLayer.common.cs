@@ -1,4 +1,5 @@
 ﻿#region copyright
+
 // Copyright (c) 2021, 2022, 2023 Mark A. Olbert 
 // https://www.JumpForJoySoftware.com
 // ImportDataLayer.common.cs
@@ -17,6 +18,7 @@
 // 
 // You should have received a copy of the GNU General Public License along 
 // with EFCoreUtilities. If not, see <https://www.gnu.org/licenses/>.
+
 #endregion
 
 using System;
@@ -45,8 +47,7 @@ public class ImportDataLayer : IImportDataLayer
         _logger = loggerFactory?.CreateLogger( GetType() );
     }
 
-    public void LogPendingChanges() =>
-        _logger?.LogInformation( "{0}", _dbContext.ChangeTracker.DebugView.LongView );
+    public void LogPendingChanges() => _logger?.LogInformation( "{0}", _dbContext.ChangeTracker.DebugView.LongView );
 
     public bool SaveChanges()
     {
@@ -64,7 +65,7 @@ public class ImportDataLayer : IImportDataLayer
         }
         catch( Exception e )
         {
-            _logger?.LogCritical(e.FormatException("Exception thrown while saving database changes"));
+            _logger?.LogCritical( e.FormatException( "Exception thrown while saving database changes" ) );
             return false;
         }
     }

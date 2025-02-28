@@ -1,7 +1,8 @@
 ﻿#region copyright
+
 // Copyright (c) 2021, 2022, 2023 Mark A. Olbert 
 // https://www.JumpForJoySoftware.com
-// IEntityConfiguration.cs
+// IImportDataLayer.common.cs
 //
 // This file is part of JumpForJoy Software's EFCoreUtilities.
 // 
@@ -17,18 +18,21 @@
 // 
 // You should have received a copy of the GNU General Public License along 
 // with EFCoreUtilities. If not, see <https://www.gnu.org/licenses/>.
+
 #endregion
 
-using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace J4JSoftware.EFCoreUtilities;
 
-public interface IEntityConfiguration
+public interface IImportDataLayer
 {
-    void Configure( ModelBuilder builder );
-}
+    void LogPendingChanges();
 
-public interface IEntityConfiguration<TEntity> : IEntityConfiguration
-    where TEntity : class
-{
+    bool SaveChanges();
+
+    TEntity? GetPendingEntity<TEntity>(
+        Func<TEntity, bool> matchFunc
+    )
+        where TEntity : class;
 }

@@ -1,4 +1,5 @@
 ﻿#region copyright
+
 // Copyright (c) 2021, 2022, 2023 Mark A. Olbert 
 // https://www.JumpForJoySoftware.com
 // DbExtensions.cs
@@ -17,6 +18,7 @@
 // 
 // You should have received a copy of the GNU General Public License along 
 // with EFCoreUtilities. If not, see <https://www.gnu.org/licenses/>.
+
 #endregion
 
 using System;
@@ -42,11 +44,11 @@ public static class DbExtensions
     {
         var retVal = new StringBuilder();
 
-        retVal.Append($"\n\tException type:\t{e.GetType().Name}");
+        retVal.Append( $"\n\tException type:\t{e.GetType().Name}" );
         retVal.Append( $"\nDetails:\t{e.Message}" );
 
-        if (e.InnerException != null)
-            retVal.Append($"\n\tInner Details:\t{e.InnerException.Message}");
+        if( e.InnerException != null )
+            retVal.Append( $"\n\tInner Details:\t{e.InnerException.Message}" );
 
         retVal.Append( "\n\nInvolved entities are:" );
 
@@ -60,9 +62,9 @@ public static class DbExtensions
             }
         }
 
-        retVal.Append($"\n\n\tCalled by:\t{callerName}");
-        retVal.Append($"\n\tSource file:\t{callerFilePath}");
-        retVal.Append($"\n\tLine number:\t{callerLineNum}");
+        retVal.Append( $"\n\n\tCalled by:\t{callerName}" );
+        retVal.Append( $"\n\tSource file:\t{callerFilePath}" );
+        retVal.Append( $"\n\tLine number:\t{callerLineNum}" );
 
         return retVal.ToString();
     }
@@ -79,19 +81,21 @@ public static class DbExtensions
                                    return null;
 
                                var genTypeDef = pi.PropertyType.GetGenericTypeDefinition();
-                               return genTypeDef != typeof( DbSet<> ) ? null : pi.PropertyType.GetGenericArguments()[ 0 ];
+                               return genTypeDef != typeof( DbSet<> )
+                                   ? null
+                                   : pi.PropertyType.GetGenericArguments()[ 0 ];
                            } )
                           .Where( et => et != null )
                           .Select( et => et! )
                           .ToList();
 
-    public static bool TryGetEntityType(this DbContext dbContext, string entityName, out Type? entityType)
+    public static bool TryGetEntityType( this DbContext dbContext, string entityName, out Type? entityType )
     {
         entityType = null;
 
-        foreach (var curType in dbContext.Model.GetEntityTypes())
+        foreach( var curType in dbContext.Model.GetEntityTypes() )
         {
-            if (!curType.Name.Equals(entityName, StringComparison.OrdinalIgnoreCase))
+            if( !curType.Name.Equals( entityName, StringComparison.OrdinalIgnoreCase ) )
                 continue;
 
             entityType = curType.ClrType;
@@ -101,13 +105,13 @@ public static class DbExtensions
         return false;
     }
 
-    public static bool TryGetEntityName(this DbContext dbContext, Type entityType, out string? entityName)
+    public static bool TryGetEntityName( this DbContext dbContext, Type entityType, out string? entityName )
     {
         entityName = null;
 
-        foreach (var curType in dbContext.Model.GetEntityTypes())
+        foreach( var curType in dbContext.Model.GetEntityTypes() )
         {
-            if (curType.ClrType != entityType)
+            if( curType.ClrType != entityType )
                 continue;
 
             entityName = curType.Name;
@@ -125,17 +129,17 @@ public static class DbExtensions
     {
         keyInfo = null;
 
-        foreach (var curType in dbContext.Model.GetEntityTypes())
+        foreach( var curType in dbContext.Model.GetEntityTypes() )
         {
-            if (curType.ClrType != entityType)
+            if( curType.ClrType != entityType )
                 continue;
 
-            foreach (var key in curType.GetKeys())
+            foreach( var key in curType.GetKeys() )
             {
-                if (!key.IsPrimaryKey() || key.Properties.Count != 1)
+                if( !key.IsPrimaryKey() || key.Properties.Count != 1 )
                     continue;
 
-                keyInfo = key.Properties[0].PropertyInfo;
+                keyInfo = key.Properties[ 0 ].PropertyInfo;
 
                 return true;
             }
@@ -146,21 +150,25 @@ public static class DbExtensions
         return false;
     }
 
-    public static bool TryGetEntitySingleFieldPrimaryKey(this DbContext dbContext, Type entityType, out string? keyField)
+    public static bool TryGetEntitySingleFieldPrimaryKey(
+        this DbContext dbContext,
+        Type entityType,
+        out string? keyField
+    )
     {
         keyField = null;
 
-        foreach (var curType in dbContext.Model.GetEntityTypes())
+        foreach( var curType in dbContext.Model.GetEntityTypes() )
         {
-            if (curType.ClrType != entityType)
+            if( curType.ClrType != entityType )
                 continue;
 
-            foreach (var key in curType.GetKeys())
+            foreach( var key in curType.GetKeys() )
             {
-                if (!key.IsPrimaryKey() || key.Properties.Count != 1)
+                if( !key.IsPrimaryKey() || key.Properties.Count != 1 )
                     continue;
 
-                keyField = key.Properties[0].Name;
+                keyField = key.Properties[ 0 ].Name;
 
                 return true;
             }

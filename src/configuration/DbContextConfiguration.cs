@@ -16,7 +16,7 @@ public class DbContextConfiguration<TDb>( ILoggerFactory? loggerFactory )
         where TEntity : class
         where TConfig : class, IEntityConfiguration<TEntity>, new()
     {
-        if( _configurators.TryAdd( typeof( TEntity ), typeof(TConfig)) )
+        if( _configurators.TryAdd( typeof( TEntity ), typeof( TConfig ) ) )
             return true;
 
         _logger?.DuplicateEntityConfigurator( typeof( TEntity ), typeof( TConfig ) );
@@ -47,7 +47,7 @@ public class DbContextConfiguration<TDb>( ILoggerFactory? loggerFactory )
         if( entityTypes.Count == 0 )
             return allOkay;
 
-        _logger?.UnconfiguredEntityTypes( typeof(TDb), string.Join( ", ", entityTypes.Select( et => et.Name ) ) );
+        _logger?.UnconfiguredEntityTypes( typeof( TDb ), string.Join( ", ", entityTypes.Select( et => et.Name ) ) );
         return false;
     }
 }

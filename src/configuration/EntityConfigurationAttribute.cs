@@ -1,4 +1,5 @@
 ﻿#region copyright
+
 // Copyright (c) 2021, 2022, 2023 Mark A. Olbert 
 // https://www.JumpForJoySoftware.com
 // EntityConfigurationAttribute.cs
@@ -17,6 +18,7 @@
 // 
 // You should have received a copy of the GNU General Public License along 
 // with EFCoreUtilities. If not, see <https://www.gnu.org/licenses/>.
+
 #endregion
 
 using System;
@@ -36,20 +38,19 @@ public class EntityConfigurationAttribute : Attribute
         if( contextType != null )
         {
             if( !contextType.IsAssignableTo( typeof( DbContext ) ) )
-                throw new ArgumentException($"Type {contextType.Name} is not assignable to {typeof(DbContext)}");
+                throw new ArgumentException( $"Type {contextType.Name} is not assignable to {typeof( DbContext )}" );
         }
 
         _configType = configType ?? throw new NullReferenceException( nameof( configType ) );
 
         if( !typeof( IEntityConfiguration ).IsAssignableFrom( configType ) )
+        {
             throw new
                 ArgumentException( $"Database entity configuration type is not {nameof( IEntityConfiguration )}" );
+        }
     }
 
     public Type? ContextType { get; }
 
-    public IEntityConfiguration GetConfigurator()
-    {
-        return (IEntityConfiguration) Activator.CreateInstance( _configType )!;
-    }
+    public IEntityConfiguration GetConfigurator() => (IEntityConfiguration) Activator.CreateInstance( _configType )!;
 }

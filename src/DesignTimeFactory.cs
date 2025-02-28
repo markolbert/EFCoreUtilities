@@ -1,4 +1,5 @@
 ﻿#region copyright
+
 // Copyright (c) 2021, 2022, 2023 Mark A. Olbert 
 // https://www.JumpForJoySoftware.com
 // DesignTimeFactory.cs
@@ -17,6 +18,7 @@
 // 
 // You should have received a copy of the GNU General Public License along 
 // with EFCoreUtilities. If not, see <https://www.gnu.org/licenses/>.
+
 #endregion
 
 using System;
@@ -43,7 +45,7 @@ public abstract class DesignTimeFactory<TDbContext> : IDesignTimeDbContextFactor
     // which isn't likely to be located anywhere near where the database is being defined.
     protected DesignTimeFactory(
         string srcCodeDir
-        )
+    )
     {
         _srcCodeDir = srcCodeDir;
 
@@ -58,8 +60,10 @@ public abstract class DesignTimeFactory<TDbContext> : IDesignTimeDbContextFactor
                var args = x.GetParameters();
                return args.Length == 1 && args[ 0 ].ParameterType.IsAssignableFrom( optionsType );
            } ) )
+        {
             throw new ArgumentException(
                 $"{GetType().Name}::ctor() -- {typeof( TDbContext )} does not have a public constructor taking a single {typeof( DbContextOptions )} argument" );
+        }
     }
 
     public virtual DbContextOptions<TDbContext>? GetOptions() => null;

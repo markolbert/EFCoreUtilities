@@ -1,4 +1,5 @@
 ﻿#region copyright
+
 // Copyright (c) 2021, 2022, 2023 Mark A. Olbert 
 // https://www.JumpForJoySoftware.com
 // EntityConfigurationExtensions.cs
@@ -17,6 +18,7 @@
 // 
 // You should have received a copy of the GNU General Public License along 
 // with EFCoreUtilities. If not, see <https://www.gnu.org/licenses/>.
+
 #endregion
 
 using System;
@@ -27,62 +29,67 @@ using Microsoft.EntityFrameworkCore;
 
 namespace J4JSoftware.EFCoreUtilities;
 
-[Obsolete($"Use DbContextConfiguration instead")]
+[ Obsolete( "Use DbContextConfiguration instead" ) ]
 public static class EntityConfigurationExtensions
 {
-    [Obsolete($"Use DbContextConfiguration instead")]
-    public static void ConfigureEntities( this ModelBuilder modelBuilder, Type? contextType = null, Assembly? assemblyToScan = null )
+    [ Obsolete( "Use DbContextConfiguration instead" ) ]
+    public static void ConfigureEntities(
+        this ModelBuilder modelBuilder,
+        Type? contextType = null,
+        Assembly? assemblyToScan = null
+    )
     {
         assemblyToScan ??= Assembly.GetCallingAssembly();
 
         // scan assembly for types decorated with EntityConfigurationAttribute and configure them
-        foreach ( var entityType in assemblyToScan
+        foreach( var entityType in assemblyToScan
                                   .DefinedTypes
                                   .Where( t =>
                                               t.GetCustomAttribute<EntityConfigurationAttribute>() != null ) )
         {
             var attr = entityType.GetCustomAttribute<EntityConfigurationAttribute>();
 
-            if( contextType == null || attr!.ContextType == contextType)
+            if( contextType == null || attr!.ContextType == contextType )
                 attr?.GetConfigurator().Configure( modelBuilder );
         }
     }
 
-    [Obsolete($"Use DbContextConfiguration instead")]
-    public static void ConfigureEntities(this ModelBuilder modelBuilder, params Type[] entityTypes )
+    [ Obsolete( "Use DbContextConfiguration instead" ) ]
+    public static void ConfigureEntities( this ModelBuilder modelBuilder, params Type[] entityTypes )
     {
-        foreach (var entityType in entityTypes
-                     .Where(t =>
-                         t.GetCustomAttribute<EntityConfigurationAttribute>() != null))
+        foreach( var entityType in entityTypes
+                   .Where( t =>
+                               t.GetCustomAttribute<EntityConfigurationAttribute>() != null ) )
         {
             var attr = entityType.GetCustomAttribute<EntityConfigurationAttribute>();
-            attr?.GetConfigurator().Configure(modelBuilder);
+            attr?.GetConfigurator().Configure( modelBuilder );
         }
     }
 
-    [Obsolete($"Use DbContextConfiguration instead")]
-    public static void ConfigureEntitiesFromAttributes<TContext>(this ModelBuilder modelBuilder)
-        where TContext: DbContext
+    [ Obsolete( "Use DbContextConfiguration instead" ) ]
+    public static void ConfigureEntitiesFromAttributes<TContext>( this ModelBuilder modelBuilder )
+        where TContext : DbContext
     {
-        foreach (var configAttr in typeof(TContext).GetProperties()
-                     .Where(pi => pi.PropertyType == typeof(DbSet<>))
-                     .Select(pi =>
-                     {
-                         if (!pi.PropertyType.IsGenericType)
-                             return null;
+        foreach( var configAttr in typeof( TContext ).GetProperties()
+                                                     .Where( pi => pi.PropertyType == typeof( DbSet<> ) )
+                                                     .Select( pi =>
+                                                      {
+                                                          if( !pi.PropertyType.IsGenericType )
+                                                              return null;
 
-                         var typeParams = pi.PropertyType.GetGenericArguments();
-                         if (typeParams.Length != 1)
-                             return null;
+                                                          var typeParams = pi.PropertyType.GetGenericArguments();
+                                                          if( typeParams.Length != 1 )
+                                                              return null;
 
-                         return typeParams[0].GetCustomAttribute<EntityConfigurationAttribute>();
-                     }))
+                                                          return typeParams[ 0 ]
+                                                             .GetCustomAttribute<EntityConfigurationAttribute>();
+                                                      } ) )
         {
-            configAttr?.GetConfigurator().Configure(modelBuilder);
+            configAttr?.GetConfigurator().Configure( modelBuilder );
         }
     }
 
-    [Obsolete($"Use DbContextConfiguration instead")]
+    [ Obsolete( "Use DbContextConfiguration instead" ) ]
     public static bool ConfigureEntitiesFromDbContext<TContext>(
         this ModelBuilder modelBuilder,
         out List<Type> unconfigured,
@@ -121,19 +128,23 @@ public static class EntityConfigurationExtensions
             configurator.Configure( modelBuilder );
 
             // get the entity type being configured
-            if( (!configType.BaseType?.IsGenericType ?? true ) || configType.BaseType is not { IsGenericType: true })
-                throw new ArgumentException(
-                    $"Type {configType.Name} does not have a generic base type" );
+            if( ( !configType.BaseType?.IsGenericType ?? true ) || configType.BaseType is not { IsGenericType: true } )
+            {
+                throw new ArgumentException( $"Type {configType.Name} does not have a generic base type" );
+            }
 
             var entityConfigType = configType.BaseType.GetGenericTypeDefinition();
             if( entityConfigType != typeof( EntityConfigurator<> ) )
+            {
                 throw new ArgumentException(
-                    $"Type {configType.Name} is not derived from {typeof(EntityConfigurator<> )}");
+                    $"Type {configType.Name} is not derived from {typeof( EntityConfigurator<> )}" );
+            }
 
             var genArgs = configType.BaseType.GetGenericArguments();
             if( genArgs.Length != 1 )
-                throw new ArgumentException(
-                    $"Type {configType.Name} does not have a single generic argument");
+            {
+                throw new ArgumentException( $"Type {configType.Name} does not have a single generic argument" );
+            }
 
             unconfigured.Remove( genArgs[ 0 ] );
         }
@@ -141,16 +152,16 @@ public static class EntityConfigurationExtensions
         return unconfigured.Count == 0;
     }
 
-    [Obsolete($"Use DbContextConfiguration instead")]
+    [ Obsolete( "Use DbContextConfiguration instead" ) ]
     public static void ConfigureEntities<TDbContext>(
         this ModelBuilder modelBuilder,
         Assembly? assemblyToScan = null
     )
-    where TDbContext : DbContext
+        where TDbContext : DbContext
     {
         // have to do this here so the right assembly gets picked...
         assemblyToScan ??= Assembly.GetCallingAssembly();
 
-        ConfigureEntities(modelBuilder, typeof(TDbContext), assemblyToScan);
+        ConfigureEntities( modelBuilder, typeof( TDbContext ), assemblyToScan );
     }
 }

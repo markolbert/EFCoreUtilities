@@ -1,7 +1,8 @@
 ﻿#region copyright
+
 // Copyright (c) 2021, 2022, 2023 Mark A. Olbert 
 // https://www.JumpForJoySoftware.com
-// EntityConfigurator.cs
+// IEntityConfiguration.cs
 //
 // This file is part of JumpForJoy Software's EFCoreUtilities.
 // 
@@ -17,20 +18,22 @@
 // 
 // You should have received a copy of the GNU General Public License along 
 // with EFCoreUtilities. If not, see <https://www.gnu.org/licenses/>.
+
 #endregion
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace J4JSoftware.EFCoreUtilities;
 
-public abstract class EntityConfigurator<TEntity> : IEntityConfiguration<TEntity>
-    where TEntity : class
+public interface IEntityConfiguration
 {
-    void IEntityConfiguration.Configure( ModelBuilder builder )
-    {
-        Configure( builder.Entity<TEntity>() );
-    }
+    void Configure( ModelBuilder builder );
+}
 
-    protected abstract void Configure( EntityTypeBuilder<TEntity> builder );
+// ReSharper disable once UnusedTypeParameter
+public interface IEntityConfiguration<TEntity> : IEntityConfiguration
+    where TEntity : class
+
+// ReSharper disable once RedundantTypeDeclarationBody
+{
 }
