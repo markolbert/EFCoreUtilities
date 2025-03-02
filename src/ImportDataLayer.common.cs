@@ -44,7 +44,7 @@ public class ImportDataLayer : IImportDataLayer
         _logger = loggerFactory?.CreateLogger( GetType() );
     }
 
-    public void LogPendingChanges() => _logger?.LogInformation( "{0}", _dbContext.ChangeTracker.DebugView.LongView );
+    public void LogPendingChanges() => _logger?.PendingChanges( _dbContext.ChangeTracker.DebugView.LongView );
 
     public bool SaveChanges()
     {
@@ -57,12 +57,12 @@ public class ImportDataLayer : IImportDataLayer
         }
         catch( DbUpdateException e )
         {
-            _logger?.LogCritical( e.FormatDbException() );
+            _logger?.Exception( e.FormatDbException() );
             return false;
         }
         catch( Exception e )
         {
-            _logger?.LogCritical( e.FormatException( "Exception thrown while saving database changes" ) );
+            _logger?.Exception( e.FormatException( "Exception thrown while saving database changes" ) );
             return false;
         }
     }
