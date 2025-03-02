@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreUtilities", "src\EFCoreUtilities.csproj", "{AE102DF1-FDA3-DBD9-0706-9298A271F970}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "externals", "externals", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralUtilities", "..\GeneralUtilities\src\GeneralUtilities.csproj", "{CFBCF92C-B251-701F-069E-44BC853BBD8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{AE102DF1-FDA3-DBD9-0706-9298A271F970}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE102DF1-FDA3-DBD9-0706-9298A271F970}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE102DF1-FDA3-DBD9-0706-9298A271F970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFBCF92C-B251-701F-069E-44BC853BBD8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFBCF92C-B251-701F-069E-44BC853BBD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFBCF92C-B251-701F-069E-44BC853BBD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFBCF92C-B251-701F-069E-44BC853BBD8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CFBCF92C-B251-701F-069E-44BC853BBD8F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8CA70A1B-5BAE-4AF4-A91C-73EC5F327F9A}

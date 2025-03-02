@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
 namespace J4JSoftware.EFCoreUtilities;
