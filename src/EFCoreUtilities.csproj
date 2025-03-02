@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<AssemblyName>J4JSoftware.EFCore.Utilities</AssemblyName>
 		<RootNamespace>J4JSoftware.EFCoreUtilities</RootNamespace>
 		<Nullable>enable</Nullable>
@@ -10,10 +11,16 @@
 		<Product>J4JSoftware Entity Framework Core Utilities</Product>
 		<Description>a utility framework to simplify working with EF Core databases</Description>
 		<Copyright>© Mark A. Olbert all rights reserved</Copyright>
+		<Version>2.0.0.0</Version>
+		<AssemblyVersion>2.0.0.0</AssemblyVersion>
+		<RepositoryUrl>https://github.com/markolbert/EFCoreUtilities</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/markolbert/ProgrammingUtilities</RepositoryUrl>
-		<Version>1.4.1.0</Version>
-		<AssemblyVersion>1.4.1.0</AssemblyVersion>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<PackageReleaseNotes>update to Net9, simplify configuration</PackageReleaseNotes>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<PackageLicenseFile>license.md</PackageLicenseFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,6 +33,11 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="../readme.md" Pack="true" PackagePath="\" />
+		<None Include="../license.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>
